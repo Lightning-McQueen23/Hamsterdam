@@ -6,54 +6,58 @@ body {
     text-align: center;
     min-height: 100vh;
 
-    /* Moderner Verlauf */
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    background: linear-gradient(135deg, #ff7eb3, #6a11cb, #2575fc);
+    background-size: 300% 300%;
+    animation: gradientMove 10s ease infinite;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
+/* Bewegt sich langsam */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 /* Überschrift */
 h1 {
-    font-size: 3rem;
+    font-size: 3.2rem;
     margin-bottom: 0.5rem;
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    text-shadow: 0 5px 18px rgba(0, 0, 0, 0.4);
     animation: fadeIn 1.2s ease forwards;
 }
 
-/* Untertitel */
+/* Text */
 p {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     opacity: 0.9;
     margin-bottom: 2rem;
-    animation: fadeIn 1.4s ease forwards;
+    animation: fadeIn 1.5s ease forwards;
 }
 
-/* Hamster-Bild Styling */
+/* Hamster-Bild */
 img {
-    width: 260px; /* lässt sich ändern */
+    width: 260px;
     border-radius: 20px;
-    box-shadow: 0 8px 18px rgba(0,0,0,0.35);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 12px 22px rgba(0,0,0,0.55);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s;
     cursor: pointer;
-    animation: fadeIn 1.6s ease forwards;
+    animation: fadeIn 1.8s ease forwards;
 }
 
-/* Hover-Effekt */
+/* Hover-Effekte */
 img:hover {
-    transform: scale(1.08) rotate(1.5deg);
-    box-shadow: 0 12px 28px rgba(0,0,0,0.45);
+    transform: scale(1.12) rotate(3deg);
+    box-shadow: 0 18px 35px rgba(0,0,0,0.7);
+    filter: brightness(1.1);
 }
 
-/* Fade-In Animation */
+/* Einblenden */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(25px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
