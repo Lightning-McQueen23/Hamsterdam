@@ -1,10 +1,59 @@
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 2rem;
-    text-align: center;
+    font-family: "Trebuchet MS", Arial, sans-serif;
     color: #fff;
+    text-align: center;
+    min-height: 100vh;
 
     /* Moderner Verlauf */
     background: linear-gradient(135deg, #6a11cb, #2575fc);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Überschrift */
+h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    animation: fadeIn 1.2s ease forwards;
+}
+
+/* Untertitel */
+p {
+    font-size: 1.3rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+    animation: fadeIn 1.4s ease forwards;
+}
+
+/* Hamster-Bild Styling */
+img {
+    width: 260px; /* lässt sich ändern */
+    border-radius: 20px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    animation: fadeIn 1.6s ease forwards;
+}
+
+/* Hover-Effekt */
+img:hover {
+    transform: scale(1.08) rotate(1.5deg);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.45);
+}
+
+/* Fade-In Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
