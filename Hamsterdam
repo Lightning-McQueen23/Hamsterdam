@@ -1,58 +1,59 @@
-/* Hintergrund-Verlauf */
 body {
     margin: 0;
-    padding: 0;
+    padding: 2rem;
     font-family: "Trebuchet MS", Arial, sans-serif;
     color: #fff;
     text-align: center;
+    min-height: 100vh;
 
+    /* Moderner Verlauf */
     background: linear-gradient(135deg, #6a11cb, #2575fc);
-    height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-}
-
-/* Card / Container für besseren Look */
-.container {
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(10px);
-    padding: 3rem 4rem;
-    border-radius: 20px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-    animation: fadeIn 1s ease forwards;
 }
 
 /* Überschrift */
 h1 {
     font-size: 3rem;
     margin-bottom: 0.5rem;
-    text-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    animation: fadeIn 1.2s ease forwards;
 }
 
 /* Untertitel */
 p {
     font-size: 1.3rem;
-    margin-bottom: 2rem;
     opacity: 0.9;
+    margin-bottom: 2rem;
+    animation: fadeIn 1.4s ease forwards;
 }
 
-/* Hamster-Bild */
-.hamster-img {
-    width: 260px;
+/* Hamster-Bild Styling */
+img {
+    width: 260px; /* lässt sich ändern */
     border-radius: 20px;
-    box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.35);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
+    animation: fadeIn 1.6s ease forwards;
 }
 
 /* Hover-Effekt */
-.hamster-img:hover {
-    transform: scale(1.08) rotate(2deg);
-    box-shadow: 0 12px 25px rgba(0,0,0,0.45);
+img:hover {
+    transform: scale(1.08) rotate(1.5deg);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.45);
 }
 
-/* Weicher Fade-In Effekt */
+/* Fade-In Animation */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
