@@ -1,10 +1,58 @@
+/* Hintergrund-Verlauf */
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
-    padding: 2rem;
-    text-align: center;
+    padding: 0;
+    font-family: "Trebuchet MS", Arial, sans-serif;
     color: #fff;
+    text-align: center;
 
-    /* Moderner Verlauf */
     background: linear-gradient(135deg, #6a11cb, #2575fc);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+/* Card / Container für besseren Look */
+.container {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    padding: 3rem 4rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    animation: fadeIn 1s ease forwards;
+}
+
+/* Überschrift */
+h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+
+/* Untertitel */
+p {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+/* Hamster-Bild */
+.hamster-img {
+    width: 260px;
+    border-radius: 20px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+/* Hover-Effekt */
+.hamster-img:hover {
+    transform: scale(1.08) rotate(2deg);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.45);
+}
+
+/* Weicher Fade-In Effekt */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to   { opacity: 1; transform: translateY(0); }
