@@ -61,3 +61,19 @@ img:hover {
     from { opacity: 0; transform: translateY(25px); }
     to   { opacity: 1; transform: translateY(0); }
 }
+.button {
+    display: inline-block;             /* wie ein Button */
+    margin-top: 2rem;                  /* Abstand zum Hamster-Bild */
+    padding: 12px 22px;                /* Innenabstand */
+    background: rgba(255,255,255,0.2); /* Hintergrundfarbe */
+    border-radius: 12px;               /* Rundungen */
+    color: white;                      /* Textfarbe */
+    text-decoration: none;             /* Keine Unterstreichung */
+    font-size: 1.2rem;
+    transition: 0.3s;
+}
+
+.button:hover {
+    background: rgba(255,255,255,0.35);
+    transform: scale(1.05);           /* leichter Hover-Effekt */
+}
