@@ -65,7 +65,7 @@ img:hover {
     display: inline-block;             /* wie ein Button */
     margin-top: 2rem;                  /* Abstand zum Hamster-Bild */
     padding: 12px 22px;                /* Innenabstand */
-    background: rgba(255,255,255,0.2); /* Hintergrundfarbe */
+    background: rgba(234, 56, 216, 0.2); /* Hintergrundfarbe */
     border-radius: 12px;               /* Rundungen */
     color: white;                      /* Textfarbe */
     text-decoration: none;             /* Keine Unterstreichung */
@@ -76,4 +76,9 @@ img:hover {
 .button:hover {
     background: rgba(255,255,255,0.35);
     transform: scale(1.05);           /* leichter Hover-Effekt */
+}
+.data-page a {
+    color: #ffd700;          /* Goldgelb, gut lesbar auf dunklem Hintergrund */
+    text-decoration: underline; /* Optional: Unterstrichen */
+    transition: color 0.3s;
 }
