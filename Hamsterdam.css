@@ -171,3 +171,26 @@ img:hover {
     color: #ffffff;
     transform: scale(1.05);
 }
+.chart-wrapper {
+    width: 100%;
+    max-width: 800px;   /* maximale Breite auf großen Bildschirmen */
+    margin: 2rem auto;  /* zentriert und Abstand oben/unten */
+    display: block;     /* wichtig, damit iframe volle Breite korrekt nimmt */
+    text-align: center; /* falls Text/iframe zentriert werden soll */
+}
+
+/* Datawrapper iFrames responsive */
+.chart-wrapper iframe {
+    width: 100%;
+    height: auto;
+    min-height: 300px;
+    display: block;    /* verhindert linksverschieben */
+    margin: 0 auto;    /* zentriert iframe */
+}
+
+/* Media Query für kleine Bildschirme */
+@media (max-width: 600px) {
+    .chart-wrapper iframe {
+        min-height: 250px;  /* kleinere Höhe für Smartphones */
+    }
+}
