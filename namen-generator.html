@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamster-Namen-Generator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 2rem;
+            font-family: "Trebuchet MS", Arial, sans-serif;
+            color: #fff;
+            text-align: center;
+            min-height: 100vh;
+
+            background: linear-gradient(135deg, #ff7eb3, #6a11cb, #1653bc);
+            background-size: 300% 300%;
+            animation: gradientMove 10s ease infinite;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Bewegt sich langsam */
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Überschrift */
+        h1 {
+            font-size: 3.2rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 5px 18px rgba(0, 0, 0, 0.4);
+            animation: fadeIn 1.2s ease forwards;
+        }
+
+        /* Sekundäre Überschrift */
+        h2 {
+            font-size: 2rem;
+            margin-top: 0.25rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 4px 12px rgba(0,0,0,0.45);
+            font-weight: 600;
+            letter-spacing: 0.4px;
+            animation: fadeIn 1.3s ease forwards;
+        }
+
+        /* Text */
+        p {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            animation: fadeIn 1.5s ease forwards;
+        }
+
+        /* Einblenden */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(25px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 12px 22px;
+            background: rgba(234, 56, 216, 0.2);
+            border-radius: 12px;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: 0.3s;
+        }
+
+        .button:hover {
+            background: rgba(255,255,255,0.35);
+            transform: scale(1.05);
+        }
+
+        /* Name-Generator Container */
+        .name-generator {
+            width: 90%;
+            max-width: 800px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 12px 22px rgba(0,0,0,0.55);
+            margin: 2rem auto;
+            animation: fadeIn 1.5s ease forwards;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Hamster-Illustration */
+        .hamster-illustration {
+            text-align: center;
+            margin: 30px 0;
+            animation: fadeIn 1.8s ease forwards;
+        }
+
+        .hamster {
+            display: inline-block;
+            position: relative;
+            width: 120px;
+            height: 90px;
+            margin: 0 auto;
+        }
+
+        .hamster-body {
+            width: 90px;
+            height: 60px;
+            background-color: #ffb380;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .hamster-face {
+            width: 60px;
+            height: 52px;
+            background-color: #ffb380;
+            border-radius: 50%;
+            position: absolute;
+            top: -15px;
+            left: 15px;
+        }
+
+        .eye {
+            width: 8px;
+            height: 8px;
+            background-color: #000;
+            border-radius: 50%;
+            position: absolute;
+            top: 18px;
+        }
+
+        .eye.left {
+            left: 15px;
+        }
+
+        .eye.right {
+            right: 15px;
+        }
+
+        .nose {
+            width: 8px;
+            height: 5px;
+            background-color: #ff9999;
+            border-radius: 50%;
+            position: absolute;
+            top: 27px;
+            left: 26px;
+        }
+
+        .mouth {
+            width: 14px;
+            height: 7px;
+            border-bottom: 2px solid #333;
+            border-radius: 50%;
+            position: absolute;
+            top: 34px;
+            left: 23px;
+        }
+
+        .ear {
+            width: 18px;
+            height: 18px;
+            background-color: #e69664;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .ear.left {
+            top: -12px;
+            left: 8px;
+        }
+
+        .ear.right {
+            top: -12px;
+            right: 8px;
+        }
+
+        .paw {
+            width: 22px;
+            height: 12px;
+            background-color: #e69664;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -5px;
+        }
+
+        .paw.left {
+            left: 15px;
+        }
+
+        .paw.right {
+            right: 15px;
+        }
+
+        /* Animation für glücklichen Hamster */
+        @keyframes happy-dance {
+            0% { transform: translateY(0); }
+            25% { transform: translateY(-5px) rotate(5deg); }
+            50% { transform: translateY(0) rotate(-5deg); }
+            75% { transform: translateY(-5px) rotate(5deg); }
+            100% { transform: translateY(0); }
+        }
+
+        .hamster.happy {
+            animation: happy-dance 0.5s ease;
+        }
+
+        /* Generator Button */
+        .generator-button {
+            background: rgba(234, 56, 216, 0.2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            transition: all 0.3s;
+            font-family: "Trebuchet MS", Arial, sans-serif;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .generator-button:hover {
+            background: rgba(255,255,255,0.35);
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Hamster Name Display */
+        .hamster-name {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 30px 0;
+            color: white;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            display: inline-block;
+            min-width: 300px;
+            transition: all 0.3s ease;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.45);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            animation: fadeIn 1.5s ease forwards;
+        }
+
+        /* Name History */
+        .name-history {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+            animation: fadeIn 1.6s ease forwards;
+        }
+
+        .history-title {
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.45);
+        }
+
+        .history-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .history-item {
+            background: rgba(234, 56, 216, 0.2);
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-weight: 500;
+            color: white;
+            transition: all 0.3s;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .history-item:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .name-generator {
+                padding: 20px;
+                width: 95%;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .hamster-name {
+                font-size: 2rem;
+                min-width: 250px;
+            }
+            
+            .generator-button {
+                padding: 12px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Hamster-Namen-Generator</h1>
+    <p>Finde den perfekten Namen für deinen pelzigen Freund!</p>
+    
+    <div class="name-generator">
+        <h2>Generiere einen niedlichen Hamster-Namen</h2>
+        
+        <div class="hamster-illustration">
+            <div class="hamster" id="hamster-icon">
+                <div class="hamster-body"></div>
+                <div class="hamster-face">
+                    <div class="eye left"></div>
+                    <div class="eye right"></div>
+                    <div class="nose"></div>
+                    <div class="mouth"></div>
+                </div>
+                <div class="ear left"></div>
+                <div class="ear right"></div>
+                <div class="paw left"></div>
+                <div class="paw right"></div>
+            </div>
+        </div>
+        
+        <div class="hamster-name" id="hamster-name">Flauschball</div>
+        
+        <button class="generator-button" id="name-button">Neuen Namen generieren</button>
+        
+        <div class="name-history">
+            <h3 class="history-title">Generierte Namen:</h3>
+            <ul class="history-list" id="name-history">
+                <li class="history-item">Flauschball</li>
+            </ul>
+        </div>
+    </div>
+    
+    <a href="hamster-chatbot.html" class="button">Zum Hamster-Chatbot</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const nameButton = document.getElementById('name-button');
+            const hamsterName = document.getElementById('hamster-name');
+            const nameHistory = document.getElementById('name-history');
+            const hamsterIcon = document.getElementById('hamster-icon');
+            
+            // Erweiterte Listen für mehr Vielfalt
+            const firstNames = [
+                "Flausch", "Knuddel", "Krümel", "Schnuffel", "Puffel", 
+                "Wuschel", "Keks", "Nager", "Puschel", "Knopf",
+                "Pieps", "Murmel", "Nugget", "Muffin", "Cookie",
+                "Zimmer", "Knister", "Trippel", "Sammy", "Hopps",
+                "Peanut", "Honey", "Fuzzy", "Nibble", "Scamper",
+                "Whisker", "Pocket", "Tiny", "Cinnamon", "Ginger"
+            ];
+            
+            const lastNames = [
+                "ball", "pfote", "backe", "schnute", "nase",
+                "zahn", "ohr", "schwanz", "fell", "wange",
+                "beutel", "flitzer", "hüpfer", "läufer", "sammler",
+                "hamster", "freund", "meister", "könig", "prinz",
+                "cheeks", "paws", "whiskers", "snout", "tail",
+                "bean", "nugget", "buddy", "munch", "squeaks"
+            ];
+            
+            // Speichern der bereits generierten Namen
+            let generatedNames = ["Flauschball"];
+            
+            nameButton.addEventListener('click', function() {
+                // Generiere einen neuen Namen
+                let firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+                let lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+                let newName = firstName + lastName;
+                
+                // Stelle sicher, dass der Name nicht direkt wiederholt wird
+                if (newName === hamsterName.textContent && firstNames.length * lastNames.length > 1) {
+                    do {
+                        firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+                        lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+                        newName = firstName + lastName;
+                    } while (newName === hamsterName.textContent);
+                }
+                
+                // Aktualisiere den angezeigten Namen
+                hamsterName.textContent = newName;
+                
+                // Animiere den Hamster
+                hamsterIcon.classList.add('happy');
+                setTimeout(() => {
+                    hamsterIcon.classList.remove('happy');
+                }, 500);
+                
+                // Füge den Namen zur Historie hinzu
+                generatedNames.push(newName);
+                
+                // Aktualisiere die Namensliste (zeige maximal die letzten 5)
+                updateNameHistory();
+            });
+            
+            function updateNameHistory() {
+                // Leere die aktuelle Liste
+                nameHistory.innerHTML = '';
+                
+                // Zeige nur die letzten 5 Namen an
+                const namesToShow = generatedNames.slice(-5);
+                
+                // Füge jeden Namen zur Liste hinzu
+                namesToShow.forEach(name => {
+                    const listItem = document.createElement('li');
+                    listItem.classList.add('history-item');
+                    listItem.textContent = name;
+                    nameHistory.appendChild(listItem);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
