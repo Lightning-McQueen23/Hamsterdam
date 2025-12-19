@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamster-Chatbot</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 2rem;
+            font-family: "Trebuchet MS", Arial, sans-serif;
+            color: #fff;
+            text-align: center;
+            min-height: 100vh;
+
+            background: linear-gradient(135deg, #ff7eb3, #6a11cb, #1653bc);
+            background-size: 300% 300%;
+            animation: gradientMove 10s ease infinite;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Bewegt sich langsam */
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Überschrift */
+        h1 {
+            font-size: 3.2rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 5px 18px rgba(0, 0, 0, 0.4);
+            animation: fadeIn 1.2s ease forwards;
+        }
+
+        /* Sekundäre Überschrift */
+        h2 {
+            font-size: 2rem;
+            margin-top: 0.25rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 4px 12px rgba(0,0,0,0.45);
+            font-weight: 600;
+            letter-spacing: 0.4px;
+            animation: fadeIn 1.3s ease forwards;
+        }
+
+        /* Text */
+        p {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            animation: fadeIn 1.5s ease forwards;
+        }
+
+        /* Einblenden */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(25px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 12px 22px;
+            background: rgba(234, 56, 216, 0.2);
+            border-radius: 12px;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: 0.3s;
+        }
+
+        .button:hover {
+            background: rgba(255,255,255,0.35);
+            transform: scale(1.05);
+        }
+
+        /* Chatbot Container */
+        .chatbot-container {
+            width: 90%;
+            max-width: 800px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 12px 22px rgba(0,0,0,0.55);
+            margin: 2rem auto;
+            text-align: left;
+            animation: fadeIn 1.5s ease forwards;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .chatbot-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .chatbot-avatar {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            margin-right: 15px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .chatbot-avatar .hamster-body {
+            width: 45px;
+            height: 30px;
+            background-color: #ffb380;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 15px;
+            left: 12px;
+        }
+
+        .chatbot-avatar .hamster-face {
+            width: 30px;
+            height: 26px;
+            background-color: #ffb380;
+            border-radius: 50%;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .chatbot-avatar .eye {
+            width: 4px;
+            height: 4px;
+            background-color: #000;
+            border-radius: 50%;
+            position: absolute;
+            top: 9px;
+        }
+
+        .chatbot-avatar .eye.left {
+            left: 7px;
+        }
+
+        .chatbot-avatar .eye.right {
+            right: 7px;
+        }
+
+        .chatbot-avatar .nose {
+            width: 4px;
+            height: 3px;
+            background-color: #ff9999;
+            border-radius: 50%;
+            position: absolute;
+            top: 14px;
+            left: 13px;
+        }
+
+        .chatbot-avatar .mouth {
+            width: 7px;
+            height: 4px;
+            border-bottom: 1px solid #333;
+            border-radius: 50%;
+            position: absolute;
+            top: 17px;
+            left: 12px;
+        }
+
+        .chatbot-avatar .ear {
+            width: 9px;
+            height: 9px;
+            background-color: #e69664;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .chatbot-avatar .ear.left {
+            top: 10px;
+            left: 15px;
+        }
+
+        .chatbot-avatar .ear.right {
+            top: 10px;
+            right: 15px;
+        }
+
+        .chatbot-info {
+            flex-grow: 1;
+        }
+
+        .chatbot-name {
+            font-size: 1.8rem;
+            margin: 0 0 5px 0;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.45);
+        }
+
+        .chatbot-status {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0;
+        }
+
+        .chat-messages {
+            height: 350px;
+            overflow-y: auto;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.3) rgba(0, 0, 0, 0.1);
+        }
+
+        /* Scrollbar für Webkit-Browser */
+        .chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .message-content {
+            max-width: 80%;
+            padding: 12px 18px;
+            border-radius: 18px;
+            font-size: 1rem;
+            line-height: 1.4;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .user-message {
+            justify-content: flex-end;
+        }
+
+        .user-message .message-content {
+            background-color: rgba(234, 56, 216, 0.3);
+            color: white;
+            border-bottom-right-radius: 5px;
+            text-align: right;
+        }
+
+        .bot-message .message-content {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            border-bottom-left-radius: 5px;
+            text-align: left;
+        }
+
+        .suggestion-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .suggestion-chip {
+            background: rgba(234, 56, 216, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            font-family: "Trebuchet MS", Arial, sans-serif;
+        }
+
+        .suggestion-chip:hover {
+            background: rgba(255,255,255,0.35);
+            transform: scale(1.05);
+        }
+
+        .chat-input {
+            display: flex;
+            margin-top: 15px;
+        }
+
+        .chat-input input {
+            flex-grow: 1;
+            padding: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+            background-color: rgba(0, 0, 0, 0.2);
+            color: white;
+            font-family: "Trebuchet MS", Arial, sans-serif;
+        }
+
+        .chat-input input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .chat-input input:focus {
+            border-color: rgba(234, 56, 216, 0.5);
+            box-shadow: 0 0 10px rgba(234, 56, 216, 0.3);
+        }
+
+        .send-button {
+            background: rgba(234, 56, 216, 0.2);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .send-button:hover {
+            background: rgba(255,255,255,0.35);
+            transform: scale(1.05);
+        }
+
+        .send-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Animation für Typing-Indikator */
+        .typing-indicator {
+            display: flex;
+            padding: 12px 18px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 18px;
+            border-bottom-left-radius: 5px;
+            margin-bottom: 15px;
+            width: fit-content;
+        }
+
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .typing-indicator span:nth-child(1) {
+            animation: typing 1s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation: typing 1s infinite 0.3s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation: typing 1s infinite 0.6s;
+            margin-right: 0;
+        }
+
+        @keyframes typing {
+            0% { opacity: 0.4; transform: translateY(0); }
+            50% { opacity: 1; transform: translateY(-5px); }
+            100% { opacity: 0.4; transform: translateY(0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .chatbot-container {
+                width: 95%;
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .chat-messages {
+                height: 300px;
+            }
+            
+            .message-content {
+                max-width: 85%;
+                font-size: 0.95rem;
+            }
+            
+            .suggestion-chips {
+                gap: 8px;
+            }
+            
+            .suggestion-chip {
+                padding: 8px 14px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Hamster-Chatbot</h1>
+    <p>Stelle deine Fragen über Hamster und erhalte sofort Antworten!</p>
+    
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <div class="chatbot-avatar">
+                <div class="hamster-body"></div>
+                <div class="hamster-face">
+                    <div class="eye left"></div>
+                    <div class="eye right"></div>
+                    <div class="nose"></div>
+                    <div class="mouth"></div>
+                </div>
+                <div class="ear left"></div>
+                <div class="ear right"></div>
+            </div>
+            <div class="chatbot-info">
+                <h2 class="chatbot-name">Hammy</h2>
+                <p class="chatbot-status">Online - Bereit, deine Hamster-Fragen zu beantworten!</p>
+            </div>
+        </div>
+        
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot-message">
+                <div class="message-content">
+                    Hallo! Ich bin Hammy, dein Hamster-Experte. Wie kann ich dir heute helfen? Stelle mir eine Frage über Hamster!
+                </div>
+            </div>
+        </div>
+        
+        <div class="suggestion-chips">
+            <button class="suggestion-chip">Was fressen Hamster?</button>
+            <button class="suggestion-chip">Wie alt werden Hamster?</button>
+            <button class="suggestion-chip">Welche Hamsterarten gibt es?</button>
+            <button class="suggestion-chip">Wie groß sollte ein Hamsterkäfig sein?</button>
+        </div>
+        
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Stelle eine Frage über Hamster..." autocomplete="off">
+            <button class="send-button" id="send-button">
+                <svg class="send-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+    
+    <a href="hamster-namen-generator.html" class="button">Zum Hamster-Namen-Generator</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatMessages = document.getElementById('chat-messages');
+            const userInput = document.getElementById('user-input');
+            const sendButton = document.getElementById('send-button');
+            const suggestionChips = document.querySelectorAll('.suggestion-chip');
+            
+            // Hamster-Wissensbank
+            const hamsterKnowledge = {
+                // Fütterung
+                "fressen": "Hamster sind Allesfresser. Sie mögen Körnermischungen, Obst (z.B. Apfel, Birne), Gemüse (z.B. Gurke, Karotte), Kräuter und gelegentlich Proteine wie Mehlwürmer. Wichtig: Avocado, Zitrusfrüchte, Zwiebeln und Knoblauch sind giftig für Hamster!",
+                "futter": "Eine ausgewogene Hamsterernährung besteht aus einer Körnermischung als Basis, frischem Gemüse und Obst in kleinen Mengen sowie gelegentlich Proteinquellen wie Mehlwürmern. Achte darauf, dass immer frisches Wasser zur Verfügung steht.",
+                "essen": "Hamster essen gerne Körnermischungen, Sonnenblumenkerne, Hirse, Haferflocken, Nüsse (ungesalzen), Obst und Gemüse in Maßen sowie Kräuter wie Kamille oder Löwenzahn.",
+                "nahrung": "Zur Hamsternahrung gehören Körnermischungen, Samen, Nüsse, Obst, Gemüse und gelegentlich Proteine. In der Natur sammeln Hamster Samen, Körner, Insekten und Pflanzen.",
+                
+                // Lebensdauer
+                "alt": "Die Lebensdauer hängt von der Hamsterart ab. Goldhamster leben etwa 2-3 Jahre, Zwerghamster wie der Roborowski können 3-4 Jahre alt werden. Wichtige Faktoren für ein langes Hamsterleben sind artgerechte Haltung, gesunde Ernährung und regelmäßige tierärztliche Kontrollen.",
+                "leben": "Hamster haben eine relativ kurze Lebensspanne von etwa 2-4 Jahren, je nach Art. Goldhamster leben durchschnittlich 2-3 Jahre, während Zwerghamsterarten wie der Roborowski bis zu 4 Jahre alt werden können.",
+                "lebensdauer": "Die Lebensdauer von Hamstern beträgt je nach Art zwischen 2 und 4 Jahren. Goldhamster leben etwa 2-3 Jahre, Zwerghamster wie der Roborowski oder der Dsungarische Zwerghamster können 3-4 Jahre alt werden.",
+                
+                // Hamsterarten
+                "arten": "Es gibt verschiedene Hamsterarten, die als Haustiere gehalten werden: Goldhamster (Syrischer Hamster), Dsungarischer Zwerghamster (auch Winterweißer Zwerghamster genannt), Campbell-Zwerghamster, Roborowski-Zwerghamster und Chinesischer Zwerghamster. Jede Art hat unterschiedliche Größen, Farben und Temperamente.",
+                "rassen": "Die häufigsten Hamsterrassen als Haustiere sind: Goldhamster (der größte, ca. 13-18 cm), Dsungarischer Zwerghamster (8-10 cm), Campbell-Zwerghamster (8-10 cm), Roborowski-Zwerghamster (der kleinste, 4-5 cm) und Chinesischer Zwerghamster (8-10 cm).",
+                "zwerghamster": "Zwerghamster sind kleiner als Goldhamster und umfassen mehrere Arten: Dsungarischer Zwerghamster (winterweiß), Campbell-Zwerghamster, Roborowski-Zwerghamster (der kleinste) und Chinesischer Zwerghamster. Sie sind oft aktiver und schneller als Goldhamster.",
+                
+                // Käfig & Haltung
+                "käfig": "Ein artgerechter Hamsterkäfig sollte mindestens 100 x 50 cm Grundfläche haben, besser noch größer. Die Höhe sollte mindestens 40 cm betragen. Wichtig ist eine ausreichende Einstreu (mindestens 20 cm tief), damit der Hamster graben kann. Gitterställe sind nicht optimal, besser sind Aquarien oder spezielle Nagerterrarien.",
+                "gehege": "Ein artgerechtes Hamstergehege sollte mindestens 0,5 m² Grundfläche haben. Für Goldhamster empfehlen Experten sogar 0,75-1 m². Das Gehege sollte mit tiefer Einstreu (20+ cm), Versteckmöglichkeiten, einem Sandbad, Laufrad (mindestens 28 cm Durchmesser für Goldhamster) und Beschäftigungsmöglichkeiten ausgestattet sein.",
+                "haltung": "Hamster sind Einzelgänger und sollten alleine gehalten werden (Ausnahme: Campbell- und Roborowski-Zwerghamster können manchmal paarweise gehalten werden). Sie brauchen ein großes Gehege mit tiefer Einstreu, Versteckmöglichkeiten, Laufrad, Sandbad und Nagematerial. Da sie nachtaktiv sind, sollten sie tagsüber nicht gestört werden.",
+                "einzeln": "Ja, die meisten Hamsterarten, besonders Goldhamster und Dsungarische Zwerghamster, sind strikte Einzelgänger und sollten alleine gehalten werden. Bei erwachsenen Tieren kann es zu schweren Kämpfen kommen, wenn sie zusammengesetzt werden. Nur bestimmte Zwerghamsterarten wie Campbell- und Roborowski-Zwerghamster können unter bestimmten Bedingungen paarweise gehalten werden.",
+                
+                // Verhalten
+                "nachtaktiv": "Ja, Hamster sind nachtaktiv (dämmerungs- und nachtaktiv). In freier Wildbahn schützt sie das vor Fressfeinden. Als Haustiere behalten sie diesen natürlichen Rhythmus bei und sind hauptsächlich in den Abend- und Nachtstunden aktiv. Tagsüber schlafen sie meist und sollten nicht gestört werden.",
+                "schlafen": "Hamster schlafen tagsüber und sind in der Dämmerung und nachts aktiv. Sie schlafen etwa 12-14 Stunden am Tag, meist in einem Nest aus Einstreu und Nistmaterial. Während des Schlafs sollten Hamster nicht gestört werden, da dies Stress verursacht.",
+                "verhalten": "Hamster sind neugierige, aber scheue Tiere. Sie sind nachtaktiv, lieben es zu graben und Futter zu horten. Typische Verhaltensweisen sind Wangen füllen, Graben von Tunneln, Sammeln von Futter in Vorratskammern, Putzverhalten und Laufen im Rad. Hamster kommunizieren durch verschiedene Laute und Körperhaltungen.",
+                "zähmen": "Um einen Hamster zu zähmen: 1) Gib ihm zunächst einige Tage Zeit, sich einzugewöhnen. 2) Sprich sanft mit ihm, damit er sich an deine Stimme gewöhnt. 3) Biete Leckerbissen aus der Hand an. 4) Lass ihn freiwillig auf deine Hand kommen. 5) Hebe ihn anfangs nur kurz und nah über dem Boden an. 6) Verlängere die Handlingzeit langsam. Wichtig: Sei geduldig und respektiere die Grenzen des Hamsters.",
+                
+                // Gesundheit
+                "gesundheit": "Anzeichen für einen gesunden Hamster sind: klare Augen, sauberes Fell, aktives Verhalten in den Wachphasen, normaler Appetit und regelmäßige Ausscheidungen. Warnzeichen für Krankheiten sind: Appetitlosigkeit, Gewichtsverlust, struppiges Fell, Durchfall, schwere Atmung, Lethargie oder ungewöhnliches Verhalten.",
+                "tierarzt": "Hamster sollten zum Tierarzt gebracht werden, wenn sie: nicht fressen, Gewicht verlieren, struppiges Fell haben, Durchfall oder feuchten Kot haben, schwer atmen, Ausfluss aus Augen/Nase zeigen, Verletzungen haben oder sich ungewöhnlich verhalten. Wichtig: Suche einen auf Kleintiere spezialisierten Tierarzt, da nicht alle Tierärzte Erfahrung mit Hamstern haben.",
+                "krankheiten": "Häufige Hamsterkrankheiten sind: Erkältungen und Atemwegsinfektionen, Durchfall, Zahnprobleme, Hautparasiten (Milben), Tumore (besonders bei älteren Tieren), nasse Schwanz-Krankheit und Diabetes (besonders bei Campbell-Zwerghamstern). Vorbeugen kann man durch artgerechte Haltung, gesunde Ernährung und saubere Käfigbedingungen."
+            };
+            
+            // Funktion zum Hinzufügen einer Nachricht zum Chat
+            function addMessage(content, isUser = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+                
+                const messageContent = document.createElement('div');
+                messageContent.className = 'message-content';
+                messageContent.textContent = content;
+                
+                messageDiv.appendChild(messageContent);
+                chatMessages.appendChild(messageDiv);
+                
+                // Scroll zum Ende des Chat-Fensters
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // Funktion zum Anzeigen des Tipp-Indikators
+            function showTypingIndicator() {
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'typing-indicator';
+                typingDiv.id = 'typing-indicator';
+                
+                for (let i = 0; i < 3; i++) {
+                    const dot = document.createElement('span');
+                    typingDiv.appendChild(dot);
+                }
+                
+                chatMessages.appendChild(typingDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // Funktion zum Entfernen des Tipp-Indikators
+            function removeTypingIndicator() {
+                const typingIndicator = document.getElementById('typing-indicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+            
+            // Funktion zur Verarbeitung der Benutzereingabe
+            function processUserInput(input) {
+                if (!input.trim()) return;
+                
+                // Benutzeranfrage zum Chat hinzufügen
+                addMessage(input, true);
+                
+                // Eingabefeld leeren
+                userInput.value = '';
+                
+                // Tipp-Indikator anzeigen
+                showTypingIndicator();
+                
+                // Verzögerung simulieren, um natürlicheres Verhalten zu erzeugen
+                setTimeout(() => {
+                    // Tipp-Indikator entfernen
+                    removeTypingIndicator();
+                    
+                    // Antwort generieren
+                    const response = generateResponse(input.toLowerCase());
+                    
+                    // Bot-Antwort zum Chat hinzufügen
+                    addMessage(response);
+                }, 1500);
+            }
+            
+            // Funktion zur Generierung einer Antwort basierend auf der Benutzereingabe
+            function generateResponse(input) {
+                // Standardantwort, falls keine passende gefunden wird
+                let response = "Entschuldige, ich bin mir nicht sicher, was du über Hamster wissen möchtest. Du kannst mich über Ernährung, Lebensdauer, Arten, Käfige, Verhalten oder Gesundheit von Hamstern fragen!";
+                
+                // Überprüfen, ob die Eingabe Schlüsselwörter enthält
+                for (const keyword in hamsterKnowledge) {
+                    if (input.includes(keyword)) {
+                        response = hamsterKnowledge[keyword];
+                        break;
+                    }
+                }
+                
+                // Spezielle Antworten für allgemeine Fragen
+                if (input.includes("hallo") || input.includes("hi") || input.includes("hey")) {
+                    response = "Hallo! Ich bin Hammy, dein Hamster-Experte. Wie kann ich dir heute helfen?";
+                } else if (input.includes("danke") || input.includes("dankeschön")) {
+                    response = "Gerne! Wenn du weitere Fragen zu Hamstern hast, stehe ich dir zur Verfügung!";
+                } else if (input.includes("tschüss") || input.includes("auf wiedersehen") || input.includes("bye")) {
+                    response = "Tschüss! Komm bald wieder, wenn du mehr über Hamster erfahren möchtest!";
+                } else if (input.includes("name") && (input.includes("dein") || input.includes("wie heißt"))) {
+                    response = "Ich heiße Hammy! Ich bin ein virtueller Hamster-Experte und helfe dir gerne bei allen Fragen rund um Hamster.";
+                } else if (input.includes("wie geht") || input.includes("wie gehts")) {
+                    response = "Mir geht es super! Ich freue mich, dir bei deinen Hamster-Fragen zu helfen. Wie kann ich dir heute behilflich sein?";
+                } else if (input.includes("spielzeug") || input.includes("beschäftigung")) {
+                    response = "Hamster lieben Spielzeug wie Laufräder (mindestens 28 cm Durchmesser für Goldhamster), Röhrensysteme, Holzspielzeug zum Nagen, Tunnel, Sandbäder und Versteckmöglichkeiten. Du kannst auch DIY-Spielzeug aus Klopapierrollen basteln oder Leckerli-Suchspiele anbieten.";
+                } else if (input.includes("sand") || input.includes("sandbad")) {
+                    response = "Ein Sandbad ist wichtig für die Fellpflege des Hamsters. Verwende speziellen Chinchillasand (ohne Zusätze) in einer flachen, stabilen Schale. Das Sandbad sollte immer zur Verfügung stehen, da Hamster es regelmäßig zur Reinigung nutzen.";
+                } else if (input.includes("einstreu") || input.includes("streu")) {
+                    response = "Gute Einstreu für Hamster ist Kleintierstreu aus Hanf, Lein oder Holzspänen (unbehandelt, staubarm). Die Einstreu sollte mindestens 20 cm tief sein, damit der Hamster Tunnel graben kann. Meide Zedernholz und stark duftende Einstreu, da diese schädlich sein können.";
+                } else if (input.includes("wasser") || input.includes("trinken")) {
+                    response = "Hamster brauchen immer Zugang zu frischem Wasser. Am besten eignet sich eine Nippeltränke, da diese nicht umkippen oder verschmutzen kann. Das Wasser sollte täglich gewechselt werden, und die Tränke regelmäßig gereinigt werden.";
+                } else if (input.includes("hamsterrad") || input.includes("laufrad")) {
+                    response = "Ein Laufrad ist wichtig für die Bewegung des Hamsters. Für Goldhamster sollte es mindestens 28 cm Durchmesser haben, für Zwerghamster mindestens 20 cm. Wähle ein Rad mit geschlossener Lauffläche ohne Sprossen, um Verletzungen zu vermeiden. Das Rad sollte leise laufen und stabil stehen.";
+                }
+                
+                return response;
+            }
+            
+            // Event-Listener für den Senden-Button
+            sendButton.addEventListener('click', function() {
+                processUserInput(userInput.value);
+            });
+            
+            // Event-Listener für die Eingabetaste
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    processUserInput(userInput.value);
+                }
+            });
+            
+            // Event-Listener für die Vorschlagschips
+            suggestionChips.forEach(chip => {
+                chip.addEventListener('click', function() {
+                    processUserInput(this.textContent);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
