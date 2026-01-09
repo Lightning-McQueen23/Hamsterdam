@@ -159,3 +159,13 @@ img:hover {
 .back-link {
     margin-top: 2.5rem;   /* Abstand nach oben */
 }
+.title-link {
+    color: #ffd700;           /* Goldgelb auf dunklem Hintergrund */
+    text-decoration: none;    /* Keine Unterstreichung */
+    cursor: pointer;          /* Zeigt Hand-Cursor */
+    transition: color 0.3s;
+}
+
+.title-link:hover {
+    color: #fff;              /* Farbe beim Hover */
+}
