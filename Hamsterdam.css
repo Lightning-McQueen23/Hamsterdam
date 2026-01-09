@@ -156,3 +156,6 @@ img:hover {
         min-height: 260px;
     }
 }
+.back-link {
+    margin-top: 2.5rem;   /* Abstand nach oben */
+}
