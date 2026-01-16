@@ -30,6 +30,35 @@ h1 {
     text-shadow: 0 5px 18px rgba(0, 0, 0, 0.4);
     animation: fadeIn 1.2s ease forwards;
 }
+/* Goldener Titel – nur für OIT */
+.gold-title {
+    font-size: 3.2rem;
+    margin-bottom: 0.8rem;
+
+    background: linear-gradient(
+        135deg,
+        #fff7d0,
+        #ffe867,
+        #ffca43,
+        #ffbf00
+        
+    );
+
+    background-size: 300% 300%;
+    animation:
+        fadeIn 1.2s ease forwards,
+        goldMove 6s ease infinite;
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+@keyframes goldMove {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
 
 /* Sekundäre Überschrift */
 h2 {
@@ -156,6 +185,22 @@ img:hover {
         min-height: 260px;
     }
 }
+
+ul {
+    list-style-position: inside;
+    padding: 0;
+    margin: 1.5rem auto;
+    animation: fadeIn 1.6s ease forwards;
+}
+
+li {
+    text-align: left;
+    max-width: 600px;
+    margin: 0.6rem auto;
+    opacity: 0;
+    animation: fadeIn 1.8s ease forwards;
+}
+
 .back-link {
     margin-top: 2.5rem;   /* Abstand nach oben */
 }
@@ -168,4 +213,13 @@ img:hover {
 
 .title-link:hover {
     color: #fff;              /* Farbe beim Hover */
+}
+.class-photo {
+    width: 250px;           /* passt sich der Breite an, quadratisch */
+    height: 250px;          /* fix für quadratisches Bild */
+    border-radius: 20px;    /* schöne abgerundete Ecken */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    margin: 2rem auto;      /* Abstand oben & unten, zentriert */
+    display: block;
+    animation: fadeIn 1.8s ease forwards; /* fliegt ein wie Text */
 }
