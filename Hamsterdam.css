@@ -223,3 +223,18 @@ li {
     display: block;
     animation: fadeIn 1.8s ease forwards; /* fliegt ein wie Text */
 }
+
+
+.hamster-von-hamsterdam-image{
+       all: unset;
+    display: block;
+    width: 100%;
+    max-width: 520px;
+    margin: 2rem auto 1.5rem;
+    border-radius: 22px;
+    animation: fadeIn 1.6s ease forwards;
+    transform: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+    cursor: default;
+}
