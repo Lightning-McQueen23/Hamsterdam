@@ -112,6 +112,10 @@ img:hover {
     font-size: 1.2rem;
     transition: 0.3s;
 }
+.button {
+    color: #fff !important;
+    text-decoration: none;
+}
 
 .button:hover {
     background: rgba(255,255,255,0.35);
